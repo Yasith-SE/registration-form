@@ -5,26 +5,41 @@ import edu.icet.model.signup;
 import edu.icet.repository.signupRepository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class signupRepositoryImpl implements signupRepository {
 
-
     @Override
     public void register(signup signupp) throws SQLException {
-
-        String SQL = "INSERT INTO signup (first_name, last_name, email_address, password) VALUES (?,?,?,?)";
-
         Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL);
 
-        preparedStatement.setObject(1, signupp.getFirstName());
-        preparedStatement.setObject(2, signupp.getLastName());
-        preparedStatement.setObject(3, signupp.getEmailAddress());
-        preparedStatement.setObject(4, signupp.getPassword());
+        connection.setAutoCommit(false);
 
-        preparedStatement.executeUpdate();
+        try {
+            String sqlSignup = "INSERT INTO signup (first_name, last_name, email_address, password) VALUES (?,?,?,?)";
+            try (PreparedStatement ps1 = connection.prepareStatement(sqlSignup)) {
+                ps1.setString(1, signupp.getFirstName());
+                ps1.setString(2, signupp.getLastName());
+                ps1.setString(3, signupp.getEmailAddress());
+                ps1.setString(4, signupp.getPassword());
+                ps1.executeUpdate();
+            }
+
+            String sqlLogin = "INSERT INTO user_login (email, password) VALUES (?,?)";
+            try (PreparedStatement ps2 = connection.prepareStatement(sqlLogin)) {
+                ps2.setString(1, signupp.getEmailAddress());
+                ps2.setString(2, signupp.getPassword());
+                ps2.executeUpdate();
+            }
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
+        }
     }
 }

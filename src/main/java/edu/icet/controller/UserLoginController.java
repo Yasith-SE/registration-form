@@ -1,6 +1,7 @@
 package edu.icet.controller;
 
 import com.jfoenix.controls.JFXTextField;
+import edu.icet.DBConnector.DBConnection;
 import edu.icet.service.UserLoginService;
 import edu.icet.service.impl.UserLoginServiceImpl;
 import javafx.event.ActionEvent;
@@ -14,6 +15,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class userLoginController {
 
@@ -39,7 +43,7 @@ public class userLoginController {
     @FXML
     void btnSignInOnAction(ActionEvent event) {
         lblValidation.setText("");
-        lblEmalValidation.setText("");
+
 
         String email = txtEmail.getText();
         String password = txtPassword.getText();
@@ -104,5 +108,19 @@ public class userLoginController {
         return hexString.toString();
 
     }
+    private void logLoginHistory(String email) {
+        String sql = "INSERT INTO login_history (user_email, login_time) VALUES (?, NOW())";
+
+        try {
+            Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 }

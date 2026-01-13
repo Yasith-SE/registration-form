@@ -6,8 +6,12 @@ import edu.icet.service.impl.signupServiceImpl;
 import edu.icet.service.signupService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -42,8 +46,16 @@ public class signupController {
 
     @FXML
     void btnBackToLogin(ActionEvent event) {
+        Stage stage = new Stage();
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/userLoginView.fxml"))));
+            stage.resizableProperty();
+            stage.show();
 
 
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
 
