@@ -1,6 +1,6 @@
 package edu.icet.service.impl;
 
-public class signupServiceImpl {
+public class SignupServiceImpl {
 
 
 }

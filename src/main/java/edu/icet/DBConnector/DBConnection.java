@@ -10,7 +10,7 @@ public class DBConnection {
 
     private DBConnection() throws SQLException {
 
-        DriverManager.getConnection("jdbc:mysql://localhost:3307/registration-system","root","1234");
+        DriverManager.getConnection("jdbc:mysql://localhost:3307/registration_system","root","1234");
 
     }
 
