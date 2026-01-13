@@ -1,4 +1,8 @@
 package edu.icet.service;
 
-public interface SignupService {
+import edu.icet.model.signup;
+
+public interface signupService {
+
+    void register(signup signupp);
 }

@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 
 
-public class Signup {
+public class signup {
 
     private String firstName;
 

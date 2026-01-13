@@ -1,9 +1,11 @@
 package edu.icet.repository;
 
-import edu.icet.model.Signup;
+import edu.icet.model.signup;
 
-public interface SignupRepository {
+import java.sql.SQLException;
 
-    void register(Signup signup);
+public interface signupRepository {
+
+    void register(signup signup) throws SQLException;
 
 }
